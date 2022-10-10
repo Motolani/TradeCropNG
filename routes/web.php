@@ -13,6 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', [App\Http\Controllers\LoggedOutController::class, 'welcomeHome'])->name('welcomeHome');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/seller/home', [App\Http\Controllers\SellersController::class, 'index'])->name('seller.home');
+Route::get('/seller/crops', [App\Http\Controllers\CropController::class, 'index'])->name('seller.crops');
