@@ -10,11 +10,11 @@
                 <div class="page-title-right">
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a href="javascript: void(0);">Seller</a></li>
-                        <li class="breadcrumb-item"><a href="javascript: void(0);">Crops</a></li>
-                        <li class="breadcrumb-item active">Uploaded Lists</li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">Orders</a></li>
+                        <li class="breadcrumb-item active">Pending</li>
                     </ol>
                 </div>
-                <h4 class="page-title">Uploaded Lists</h4>
+                <h4 class="page-title">View Pending Orders</h4>
             </div>
         </div>
     </div>     
@@ -42,7 +42,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">List of Uploaded Crops</h4>
+                    <h4 class="header-title">Pending Orders</h4>
 
                     <ul class="nav nav-tabs nav-bordered mb-3">
                         <li class="nav-item">
@@ -58,26 +58,28 @@
                                     <tr>
                                         <th>Image</th>
                                         <th>Name</th>
-                                        <th>Category</th>
-                                        <th>price_per</th>
-                                        <th>price</th>
                                         <th>quantity</th>
+                                        <th>Total Cost</th>
+                                        <th>customer name</th>
+                                        <th>customer email</th>
+                                        {{-- <th>customer address</th> --}}
                                         <th>created_at</th>
                                     </tr>
                                 </thead>
                             
                             
                                 <tbody>
-                                @if (isset($crops))
-                                    @foreach ( $crops as $item)
+                                @if (isset($orders))
+                                    @foreach ( $orders as $item)
                                         <tr>
                                             <td><img src="{{ asset('storage/uploads/'.$item->img) }}" alt="img" width="20%"> </td>
                                             
-                                            <td>{{$item->name}}</td>
+                                            <td>{{$item->product_name}}</td>
                                             <td>{{$item->category_name}}</td>
-                                            <td>{{$item->price_per}}</td>
-                                            <td>{{$item->price}}</td>
-                                            <td>{{$item->quantity}}</td>
+                                            <td>{{$item->quantity_ordered}}</td>
+                                            <td>{{$item->total}}</td>
+                                            <td>{{$item->name}}</td>
+                                            <td>{{$item->email}}</td>
                                             <td>{{$item->created_at}}</td>
                                         </tr>
                                     @endforeach
@@ -95,4 +97,4 @@
     <!-- end row-->
 
 </div>
-@endsection
+@endsection 

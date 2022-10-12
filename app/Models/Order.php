@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Crop extends Model
+class Order extends Model
 {
     use HasFactory;
-    protected $table = 'crops';
+    protected $table = 'orders';
     protected $fillable = [
-        'name', 'category_id','user_id','price','price_per','quantity','img'
+        'product_id', 'quantity','seller_id','buyer_id','transaction_id','status','cart_request_id','total_items'
     ];
 }

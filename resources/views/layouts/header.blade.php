@@ -29,10 +29,10 @@
                             </ul>
                         </div>
                         @auth
-                        
                             <div class="header__top__right__auth">
                                 <a href="#"><i class="fa fa-user"></i> {{Auth::user()->name}}</a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            </div>
+                            <div class="header__top__right__auth">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -42,7 +42,6 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
                                     </form>
-                                </div>
                             </div>
                         @else
                             <div class="header__top__right__auth">
@@ -68,28 +67,34 @@
             <div class="col-lg-6">
                 <nav class="header__menu">
                     <ul>
-                        <li class="active"><a href="./index.html">Home</a></li>
-                        <li><a href="./shop-grid.html">Shop</a></li>
+                        <li class="active"><a href="{{url('/')}}">Home</a></li>
+                        <li><a href="#">Shop</a></li>
                         <li><a href="#">Pages</a>
                             <ul class="header__menu__dropdown">
-                                <li><a href="./shop-details.html">Shop Details</a></li>
-                                <li><a href="./shoping-cart.html">Shoping Cart</a></li>
-                                <li><a href="./checkout.html">Check Out</a></li>
-                                <li><a href="./blog-details.html">Blog Details</a></li>
+                                <li><a href="#">Shop Details</a></li>
+                                <li><a href="{{url('cart')}}">Shoping Cart</a></li>
+                                <li><a href="#">Check Out</a></li>
                             </ul>
                         </li>
-                        <li><a href="./blog.html">Blog</a></li>
-                        <li><a href="./contact.html">Contact</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Contact</a></li>
                     </ul>
                 </nav>
             </div>
             <div class="col-lg-3">
                 <div class="header__cart">
+                    @php      
+                    {{
+                        $cart = \App\Models\Cart::where('user_id', Auth::id())->where('status', 0);
+                        // $getCart = $cart->get();
+                        $count = $cart->count();
+                    }}
+                @endphp
                     <ul>
                         <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
-                        <li><a href="#"><i class="fa fa-shopping-bag"></i> <span>3</span></a></li>
+                        <li><a href="{{url('cart')}}"><i class="fa fa-shopping-bag"></i> <span>{{$count}}</span></a></li>
                     </ul>
-                    <div class="header__cart__price">item: <span>$150.00</span></div>
+                    {{-- <div class="header__cart__price">item: <span>$150.00</span></div> --}}
                 </div>
             </div>
         </div>

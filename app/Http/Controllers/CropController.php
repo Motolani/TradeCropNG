@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Crop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class CropController extends Controller
 {
@@ -16,8 +19,12 @@ class CropController extends Controller
     public function index()
     {
         //
-        $crops = Crop::where('user_id', Auth::id())->latest()->get();
-        return view('seller.crop.index', compact('crops'));
+        $crops = Crop::join('crop_categories','crop_categories.id','crops.category_id')
+            ->where('crops.user_id', '=', Auth::id())
+            ->select('crops.*', 'crop_categories.name as category_name')
+            ->latest()->get();
+            // dd($crops);
+        return view('sellers.crop.index', compact('crops'));
     }
 
     /**
@@ -28,6 +35,8 @@ class CropController extends Controller
     public function create()
     {
         //
+        $cropCat = DB::table('crop_categories')->get();
+        return view('sellers.crop.create', compact('cropCat'));
     }
 
     /**
@@ -39,6 +48,52 @@ class CropController extends Controller
     public function store(Request $request)
     {
         //
+        Log::info($request);
+        $validator = Validator::make($request->all(), [
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'name' => 'required',
+            'crop_category' => 'required',
+            'price_per' => 'required',
+            'quantity' => 'required',
+            
+        ]);
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
+        
+        $filenamewithextension = $request->file('file')->getClientOriginalName();
+        Log::info("Filenamewwithextension: " .$filenamewithextension);
+        //get filename without extension
+        $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+        Log::info("filename: " .$filename);
+        
+        //get file extension
+        $extension = $request->file('file')->getClientOriginalExtension();
+        Log::info("extension: " .$extension);
+        
+        //filename to store
+        $filenametostore = $filename.'_'.time().'.'.$extension;
+        Log::info("filenametostore: " .$filenametostore);
+
+        //Upload File
+        // $request->file('file')->move('public/uploads', $filenametostore);
+        $path = $request->file('file')->storeAs('public/uploads', $filenametostore);
+        // $request->file('file')->move(public_path('uploads'), $filenametostore);
+        
+        $url = asset('public/uploads/'.$filenametostore);
+        Log::info("url: " .$url);
+        
+        $crop = new Crop();
+        $crop->img = $filenametostore;
+        $crop->name = $request->name;
+        $crop->category_id = $request->crop_category;
+        $crop->user_id = Auth::id();
+        $crop->price_per = $request->price_per;
+        $crop->price = $request->price;
+        $crop->quantity = $request->quantity;
+        $crop->save();
+        
+        return redirect()->away('crops')->with('message', 'Item successfully uploaded');
     }
 
     /**

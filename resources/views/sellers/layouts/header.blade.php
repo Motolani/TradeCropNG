@@ -245,12 +245,15 @@
                     </a>
 
                     <!-- item-->
-                    <a href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
+                    <a class="dropdown-item" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
                                   document.getElementById('logout-form').submit();">
-                        <i class="mdi mdi-logout me-1"></i>
-                        <span>Logout</span>
-                    </a>
+                     {{ __('Logout') }}
+                 </a>
+
+                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                     @csrf
+                 </form>
 
                 </div>
             </li>
@@ -343,10 +346,10 @@
                             <i class="uil-dashboard me-1"></i>Dashboards <div class="arrow-down"></div>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="topnav-dashboards">
-                            <a href="{{url('dashboard')}}" class="dropdown-item">Analytics</a>
-                            <a href="dashboard-crm.html" class="dropdown-item">CRM</a>
+                            <a href="{{url('seller/home')}}" class="dropdown-item">Analytics</a>
+                            {{-- <a href="dashboard-crm.html" class="dropdown-item">CRM</a>
                             <a href="index.html" class="dropdown-item">Ecommerce</a>
-                            <a href="dashboard-projects.html" class="dropdown-item">Projects</a>
+                            <a href="dashboard-projects.html" class="dropdown-item">Projects</a> --}}
                         </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -362,31 +365,29 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-ecommerce">
                                     <a href="apps-ecommerce-products.html" class="dropdown-item"></a>
-                                    <a href="#" class="dropdown-item">upload</a>
-                                    <a href="{{url('/seller/crops')}}" class="dropdown-item">view inventory</a>
+                                    <a href="{{url('/crops/create')}}" class="dropdown-item">Upload</a>
+                                    <a href="{{url('/crops')}}" class="dropdown-item">Inventory</a>
                                 </div>
                             </div>
                             <div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-email" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Logistics <div class="arrow-down"></div>
+                                    Orders <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-email">
-                                    <a href="apps-email-inbox.html" class="dropdown-item">Inbox</a>
-                                    <a href="apps-email-read.html" class="dropdown-item">Read Email</a>
+                                    <a href="{{url('orders')}}" class="dropdown-item">Pending Orders</a>
+                                    <a href="{{url('ordersHistory')}}" class="dropdown-item">History</a>
                                 </div>
                             </div>
-                            <div class="dropdown">
+                            {{-- <div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-project" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Projects <div class="arrow-down"></div>
+                                    Logistics <div class="arrow-down"></div>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="topnav-project">
-                                    <a href="apps-projects-list.html" class="dropdown-item">List</a>
-                                    <a href="apps-projects-details.html" class="dropdown-item">Details</a>
-                                    <a href="apps-projects-gantt.html" class="dropdown-item">Gantt</a>
-                                    <a href="apps-projects-add.html" class="dropdown-item">Create Project</a>
+                                    <a href="apps-projects-list.html" class="dropdown-item">Pending Delieveries</a>
+                                    <a href="apps-projects-details.html" class="dropdown-item">History</a>
                                 </div>
-                            </div>
-                            <a href="apps-social-feed.html" class="dropdown-item">Social Feed</a>
+                            </div> --}}
+                            {{-- <a href="apps-social-feed.html" class="dropdown-item">Social Feed</a>
                             <div class="dropdown">
                                 <a class="dropdown-item dropdown-toggle arrow-none" href="#" id="topnav-tasks" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Tasks <div class="arrow-down"></div>
@@ -396,11 +397,11 @@
                                     <a href="apps-tasks-details.html" class="dropdown-item">Details</a>
                                     <a href="apps-kanban.html" class="dropdown-item">Kanban Board</a>
                                 </div>
-                            </div>
-                            <a href="apps-file-manager.html" class="dropdown-item">File Manager</a>
+                            </div> --}}
+                            {{-- <a href="apps-file-manager.html" class="dropdown-item">File Manager</a> --}}
                         </div>
                     </li>
-                    <li class="nav-item dropdown">
+                    {{-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-pages" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="uil-copy-alt me-1"></i>Pages <div class="arrow-down"></div>
                         </a>
@@ -445,8 +446,8 @@
                             <a href="pages-timeline.html" class="dropdown-item">Timeline</a>
                             <a href="landing.html" class="dropdown-item">Landing</a>
                         </div>
-                    </li>
-                    <li class="nav-item dropdown">
+                    </li> --}}
+                    {{-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-components" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="uil-package me-1"></i>Components <div class="arrow-down"></div>
                         </a>
@@ -573,9 +574,9 @@
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </li> --}}
 
-                    <li class="nav-item dropdown">
+                    {{-- <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle arrow-none" href="#" id="topnav-layouts" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="uil-window me-1"></i>Layouts <div class="arrow-down"></div>
                         </a>
@@ -583,7 +584,7 @@
                             <a href="layouts-vertical.html" class="dropdown-item">Vertical</a>
                             <a href="layouts-detached.html" class="dropdown-item">Detached</a>
                         </div>
-                    </li>
+                    </li> --}}
                 </ul>
             </div>
         </nav>
